@@ -1,12 +1,33 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 class Timer extends Component {
   state = {
     time: 0,
-    color: "#" + Math.floor(Math.random() * 16777215).toString(16)
+    color: '#' + Math.floor(Math.random() * 16777215).toString(16),
   };
 
-  // add your code here
+  interval; // Initialize the interval variable
+
+  componentDidMount() {
+    // Initialize an interval to update the timer every second
+    this.interval = setInterval(this.clockTick, 1000);
+  }
+
+  componentWillUnmount() {
+    // Clear the interval to prevent memory leaks
+    clearInterval(this.interval);
+  }
+
+  // Callback function to update the timer
+  clockTick = () => {
+    this.setState((prevState) => ({
+      time: prevState.time + 1,
+    }));
+  };
+
+  stopClock = () => {
+    clearInterval(this.interval);
+  };
 
   render() {
     const { time, color } = this.state;
@@ -19,17 +40,6 @@ class Timer extends Component {
       </section>
     );
   }
-
-  //clock functions
-  clockTick = () => {
-    this.setState(prevState => ({
-      time: prevState.time + 1
-    }));
-  };
-
-  stopClock = () => {
-    clearInterval(this.interval);
-  };
 
   // for the 'x' button,
   handleClose = () => {
